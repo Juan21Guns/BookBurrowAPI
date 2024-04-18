@@ -1,23 +1,23 @@
 using System.Collections;
-using BookBurrowAPI.Controllers;
-using BookBurrowAPI.Interfaces;
 using BookBurrowAPI.Models;
-using BookBurrowAPI.Repositories;
 using Microsoft.Extensions.Configuration;
+using BookBurrowAPI.Repositories;
+using BookBurrowAPI.Interfaces;
+using BookBurrowAPI.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-IConfigurationRoot configuration = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .Build();
-
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.Configure<DatabaseSettings>(configuration.GetSection("ConnectionString"));
-builder.Services.AddTransient<IGetConnectionString, GetConnectionString>();
+builder.Services.AddScoped<ITestSQL, TestSQL>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseMySQL(builder.Configuration.GetConnectionString("default"));
+});
 
 var app = builder.Build();
 
