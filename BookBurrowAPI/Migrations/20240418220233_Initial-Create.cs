@@ -15,7 +15,7 @@ namespace BookBurrowAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "AllUsers",
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -25,7 +25,7 @@ namespace BookBurrowAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllUsers", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
         }
@@ -34,7 +34,7 @@ namespace BookBurrowAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AllUsers");
+                name: "Users");
         }
     }
 }
