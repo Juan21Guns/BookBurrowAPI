@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookBurrowAPI.Models
 {
     public class FriendsList
     {
-        [Key]
         public int Id { get; set; }
-        public int User1 { get; }
-        public int User2 { get; }
+        [Key, Column(Order = 1)]
+        public Users User1 { get; set; }
+        [Key, Column(Order = 2)]
+        public Users User2 { get; set; }
         public DateTime TimeCreated { get; set; }
         public int FriendStatus { get; set; }
     }

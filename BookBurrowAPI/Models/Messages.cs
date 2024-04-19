@@ -1,11 +1,16 @@
-﻿namespace BookBurrowAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BookBurrowAPI.Models
 {
     public class Messages
     {
+        [Key]
         public int Id { get; set; }
-        public List<PrivateGroup> ChatId { get; } = [];
+        public int ChatId { get; set; }
+        public int UserId { get; set; }
         public string MessageContent { get; set; } = "";
+        public PrivateGroup? Chat { get; }
         public DateTime TimeCreated { get; set; }
-        public List<Users> UserSent { get; } = [];
+        public Users? UserSent { get; }
     }
 }

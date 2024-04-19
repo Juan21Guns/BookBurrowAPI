@@ -7,8 +7,9 @@ namespace BookBurrowAPI.Models
     {
         [Key]
         public int ChatId { get; set; }
-        [ForeignKey(BookId)]
-        public List<Books> BookId { get; } = [];
+        public Books? BookId { get; }
         public int BookChapter { get; set; }
+        public ICollection<PGUserNames>? Chats { get; set; }
+        public ICollection<Messages>? Messages { get; set; }
     }
 }
