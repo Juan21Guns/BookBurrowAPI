@@ -38,15 +38,6 @@ namespace BookBurrowAPI.Data
                 .HasOne(c => c.Chat)
                 .WithMany(c => c.Messages)
                 .HasForeignKey(c => c.ChatId);
-
-/*            modelBuilder.Entity<FriendsList>()
-                .HasOne(f => f.User1)
-                .WithMany(fl => fl.Friends)
-                .HasForeignKey(f => f.User1Id);
-            modelBuilder.Entity<FriendsList>()
-                .HasOne(f => f.User2)
-                .WithMany(fl => fl.Friends)
-                .HasForeignKey(f => f.User2Id);*/
         }
 
     }
