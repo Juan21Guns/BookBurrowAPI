@@ -18,11 +18,26 @@ namespace BookBurrowAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public IActionResult GetUsers(bool all)
+        [HttpGet("/one")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetUser(int Id)
         {
-            var user = _mapper.Map<List<UsersDto>>(_userAction.GetUser(all));
-            return Ok(user);
+            Console.WriteLine(Id);
+            var user = _mapper.Map<UsersDto>(_userAction.GetUser(Id));
+            Console.WriteLine($"User is {user}");
+            return user == null ? NotFound() : Ok(user);
+        }
+
+        [HttpGet("/all")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetAllUsers(int Id)
+        {
+            Console.WriteLine(Id);
+            var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(Id));
+            Console.WriteLine($"User is {user}");
+            return user == null ? NotFound() : Ok(user);
         }
     }
 }

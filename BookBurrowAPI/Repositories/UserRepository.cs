@@ -13,21 +13,31 @@ namespace BookBurrowAPI.Repositories
             _context = context;
         }
 
-        ICollection<Users> IUserRepository.GetUser(bool all, string Id)
+        Users IUserRepository.GetUser(int Id)
         {
-            if (all) 
-            {
-                return _context.Users.ToList();
-            }
+            /*            if (returnId) 
+                        {
+                            return _context.Users.ToList();
+                        } else if (!returnId && Id == null)
+                        {
+                            return null;
+                        }*/
 
-            List<Users> output = [];
+            /*            List<Users> output = [];
 
-            foreach (int IdTag in Id)
-            {
-                output = _context.Users.Where(r => IdTag == r.UserId).ToList();
-            }
+                        foreach (string IdTag in Id)
+                        {
+                            output = _context.Users.Where(r => IdTag == r.FirstName).ToList();
+                        }*/
+            /*string word = Id.ToString();*/
+            Console.WriteLine($"The number is {Id}");
+            return _context.Users.Where(r => Id == r.UserId)
+                .FirstOrDefault();
+        }
 
-            return output;
+        ICollection<Users> IUserRepository.GetAllUsers(int n)
+        {
+            return _context.Users.Take(n).ToList();
         }
     }
 }

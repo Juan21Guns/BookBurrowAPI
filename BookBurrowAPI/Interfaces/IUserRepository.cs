@@ -5,7 +5,7 @@ namespace BookBurrowAPI.Interfaces
 {
     public interface IUserRepository
     {
-        ICollection<Users> GetUser(bool all = false, string Id = "");
-
+        Users GetUser(int Id);
+        ICollection<Users> GetAllUsers(int n = 5);
     }
 }
