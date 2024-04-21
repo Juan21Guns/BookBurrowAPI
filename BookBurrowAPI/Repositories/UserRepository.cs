@@ -15,29 +15,42 @@ namespace BookBurrowAPI.Repositories
 
         Users IUserRepository.GetUser(int Id)
         {
-            /*            if (returnId) 
-                        {
-                            return _context.Users.ToList();
-                        } else if (!returnId && Id == null)
-                        {
-                            return null;
-                        }*/
-
-            /*            List<Users> output = [];
-
-                        foreach (string IdTag in Id)
-                        {
-                            output = _context.Users.Where(r => IdTag == r.FirstName).ToList();
-                        }*/
-            /*string word = Id.ToString();*/
             Console.WriteLine($"The number is {Id}");
             return _context.Users.Where(r => Id == r.UserId)
                 .FirstOrDefault();
         }
 
-        ICollection<Users> IUserRepository.GetAllUsers(int n)
+        Users IUserRepository.GetUserByName(string name)
         {
-            return _context.Users.Take(n).ToList();
+            Console.WriteLine($"The name is {name}");
+            return _context.Users.Where(r => name == r.FirstName)
+                .FirstOrDefault();
+        }
+
+        ICollection<Users> IUserRepository.GetAllUsers(int startN, int endN, int friendId, int friendStatus)
+        {
+            var friendsList = _context.FriendsList.Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus).ToList();
+            ICollection<Users> friendUsers = [];
+
+            foreach (FriendsList i in friendsList)
+            {
+                int friend;
+                Users currentFriend;
+
+                if (i.User1 == friendId)
+                {
+                    friend = i.User2;
+                } else
+                {
+                    friend = i.User1;
+                }
+
+                currentFriend = _context.Users.Where(c => c.UserId == friend).First();
+
+                friendUsers.Add(currentFriend);
+            }
+
+            return friendUsers.OrderBy(c => c.FirstName).Skip(startN).Take((endN - startN)).ToList();
         }
     }
 }

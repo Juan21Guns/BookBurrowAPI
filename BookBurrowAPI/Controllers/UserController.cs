@@ -32,10 +32,9 @@ namespace BookBurrowAPI.Controllers
         [HttpGet("/all")]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetAllUsers(int Id)
+        public IActionResult GetAllUsers(int startN, int endN, int friendId, int friendStatus)
         {
-            Console.WriteLine(Id);
-            var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(Id));
+            var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(startN, endN, friendId, friendStatus));
             Console.WriteLine($"User is {user}");
             return user == null ? NotFound() : Ok(user);
         }
