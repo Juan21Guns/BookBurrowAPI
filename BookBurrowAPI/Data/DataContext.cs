@@ -11,7 +11,7 @@ namespace BookBurrowAPI.Data
         }
 
         public DbSet<Users> Users { get; set; }
-        public DbSet<FriendsList> FriendsLists { get; set; }
+        public DbSet<FriendsList> FriendsList { get; set; }
         public DbSet<Books> Books { get; set; }
         public DbSet<PrivateGroup> PrivateGroups { get; set; }
         public DbSet<PGUserNames> PGUserNames { get; set; }
@@ -39,14 +39,8 @@ namespace BookBurrowAPI.Data
                 .WithMany(c => c.Messages)
                 .HasForeignKey(c => c.ChatId);
 
-/*            modelBuilder.Entity<FriendsList>()
-                .HasOne(f => f.User1)
-                .WithMany(fl => fl.Friends)
-                .HasForeignKey(f => f.User1Id);
             modelBuilder.Entity<FriendsList>()
-                .HasOne(f => f.User2)
-                .WithMany(fl => fl.Friends)
-                .HasForeignKey(f => f.User2Id);*/
+                .HasKey(k => new { k.User1, k.User2 });
         }
 
     }

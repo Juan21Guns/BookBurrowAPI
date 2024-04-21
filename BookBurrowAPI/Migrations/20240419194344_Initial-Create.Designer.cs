@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240419183409_Initial-Create")]
+    [Migration("20240419194344_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />

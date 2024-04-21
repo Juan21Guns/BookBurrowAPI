@@ -9,8 +9,8 @@ namespace BookBurrowAPI.Models
         public int ChatId { get; set; }
         public int UserId { get; set; }
         public string MessageContent { get; set; } = "";
-        public PrivateGroup? Chat { get; }
         public DateTime TimeCreated { get; set; }
+        public PrivateGroup? Chat { get; }
         public Users? UserSent { get; }
     }
 }

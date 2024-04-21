@@ -7,10 +7,10 @@ namespace BookBurrowAPI.Models
     {
         public int Id { get; set; }
         [Key, Column(Order = 1)]
-        public Users User1 { get; set; }
+        public int User1 { get; set; }
         [Key, Column(Order = 2)]
-        public Users User2 { get; set; }
-        public DateTime TimeCreated { get; set; }
+        public int User2 { get; set; }
+        public DateTime? TimeCreated { get; set; }
         public int FriendStatus { get; set; }
     }
 }
