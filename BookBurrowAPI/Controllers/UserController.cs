@@ -21,11 +21,18 @@ namespace BookBurrowAPI.Controllers
         [HttpGet("/one")]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUser(int Id)
+        public IActionResult GetUser([FromQuery] int Id)
         {
-            Console.WriteLine(Id);
             var user = _mapper.Map<UsersDto>(_userAction.GetUser(Id));
-            Console.WriteLine($"User is {user}");
+            return user == null ? NotFound() : Ok(user);
+        }
+
+        [HttpGet("/byName")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetUserByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            var user = _mapper.Map<ICollection<UsersDto>>(_userAction.GetUserByName(firstName, lastName));
             return user == null ? NotFound() : Ok(user);
         }
 
@@ -35,7 +42,6 @@ namespace BookBurrowAPI.Controllers
         public IActionResult GetAllUsers(int startN, int endN, int friendId, int friendStatus)
         {
             var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(startN, endN, friendId, friendStatus));
-            Console.WriteLine($"User is {user}");
             return user == null ? NotFound() : Ok(user);
         }
     }

@@ -15,16 +15,26 @@ namespace BookBurrowAPI.Repositories
 
         Users IUserRepository.GetUser(int Id)
         {
-            Console.WriteLine($"The number is {Id}");
             return _context.Users.Where(r => Id == r.UserId)
                 .FirstOrDefault();
         }
 
-        Users IUserRepository.GetUserByName(string name)
+        ICollection<Users> IUserRepository.GetUserByName(string firstName, string lastName)
         {
-            Console.WriteLine($"The name is {name}");
-            return _context.Users.Where(r => name == r.FirstName)
-                .FirstOrDefault();
+            if (firstName == null)
+            {
+                if (lastName != null)
+                {
+                    return _context.Users.Where(r => lastName == r.LastName).ToList();
+                }
+
+                return null;
+            } else if (lastName == null)
+            {
+                return _context.Users.Where(r => firstName == r.FirstName).ToList();
+            }
+
+            return _context.Users.Where(r => (lastName == r.LastName) || (firstName == r.FirstName)).ToList();
         }
 
         ICollection<Users> IUserRepository.GetAllUsers(int startN, int endN, int friendId, int friendStatus)
@@ -52,5 +62,10 @@ namespace BookBurrowAPI.Repositories
 
             return friendUsers.OrderBy(c => c.FirstName).Skip(startN).Take((endN - startN)).ToList();
         }
+
+/*        Users CreateUser(string FirstName, string LastName)
+        {
+            var doesExist = IUserRepository.GetUserByName();
+        }*/
     }
 }
