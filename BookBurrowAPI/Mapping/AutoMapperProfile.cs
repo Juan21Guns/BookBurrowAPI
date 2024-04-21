@@ -8,6 +8,7 @@ namespace BookBurrowAPI.Mapping
         public AutoMapperProfile()
         {
             CreateMap<Users, UsersDto>();
+            CreateMap<UsersDto, Users>();
         }
     }
 }
