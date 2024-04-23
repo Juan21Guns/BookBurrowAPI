@@ -13,13 +13,32 @@ namespace BookBurrowAPI.Repositories
             _context = context;
         }
 
-        Users IUserRepository.GetUser(int Id)
+        public bool SaveChanges()
+        {
+            try
+            {
+                int didSave = _context.SaveChanges();
+                return didSave > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
+
+        public bool UserExists(int Id)
+        {
+            return _context.Users.Any(c => c.UserId == Id) == true ? true : false;
+        }
+
+        public Users GetUser(int Id)
         {
             return _context.Users.Where(r => Id == r.UserId)
                 .FirstOrDefault();
         }
 
-        ICollection<Users> IUserRepository.GetUserByName(string firstName, string lastName)
+        public ICollection<Users> GetUserByName(string? firstName, string? lastName)
         {
             if (firstName == null)
             {
@@ -37,7 +56,7 @@ namespace BookBurrowAPI.Repositories
             return _context.Users.Where(r => (lastName == r.LastName) || (firstName == r.FirstName)).ToList();
         }
 
-        ICollection<Users> IUserRepository.GetAllUsers(int startN, int endN, int friendId, int friendStatus)
+        public ICollection<Users> GetAllUsers(int startN, int endN, int friendId, int friendStatus)
         {
             var friendsList = _context.FriendsList.Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus).ToList();
             ICollection<Users> friendUsers = [];
@@ -63,9 +82,35 @@ namespace BookBurrowAPI.Repositories
             return friendUsers.OrderBy(c => c.FirstName).Skip(startN).Take((endN - startN)).ToList();
         }
 
-/*        Users CreateUser(string FirstName, string LastName)
+        public bool CreateUser(string FirstName, string LastName)
         {
-            var doesExist = IUserRepository.GetUserByName();
-        }*/
+            //Checking for existing user will be done with AWS Cognito
+            //Assuming account was created:
+            Users newProfile = new Users()
+            {
+                FirstName = FirstName,
+                LastName = LastName
+            };
+
+            _context.Users.Add(newProfile);
+
+            return SaveChanges();
+        }
+
+        public bool UpdateUser(Users newUser)
+        {
+            Console.WriteLine($"newUser {newUser.FirstName}");
+            _context.Update(newUser);
+
+            return SaveChanges();
+        }
+
+        public bool DeleteUser(int Id)
+        {
+            var deleteUser = GetUser(Id);
+            Console.WriteLine(deleteUser.UserId);
+            _context.Users.Remove(deleteUser);
+            return SaveChanges();
+        }
     }
 }
