@@ -13,7 +13,7 @@ namespace BookBurrowAPI.Repositories
             _context = context;
         }
 
-        private bool SaveChanges()
+        public bool SaveChanges()
         {
             try
             {
@@ -27,13 +27,18 @@ namespace BookBurrowAPI.Repositories
             }
         }
 
-        Users IUserRepository.GetUser(int Id)
+        public bool UserExists(int Id)
+        {
+            return _context.Users.Any(c => c.UserId == Id) == true ? true : false;
+        }
+
+        public Users GetUser(int Id)
         {
             return _context.Users.Where(r => Id == r.UserId)
                 .FirstOrDefault();
         }
 
-        ICollection<Users> IUserRepository.GetUserByName(string? firstName, string? lastName)
+        public ICollection<Users> GetUserByName(string? firstName, string? lastName)
         {
             if (firstName == null)
             {
@@ -51,7 +56,7 @@ namespace BookBurrowAPI.Repositories
             return _context.Users.Where(r => (lastName == r.LastName) || (firstName == r.FirstName)).ToList();
         }
 
-        ICollection<Users> IUserRepository.GetAllUsers(int startN, int endN, int friendId, int friendStatus)
+        public ICollection<Users> GetAllUsers(int startN, int endN, int friendId, int friendStatus)
         {
             var friendsList = _context.FriendsList.Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus).ToList();
             ICollection<Users> friendUsers = [];
@@ -92,11 +97,19 @@ namespace BookBurrowAPI.Repositories
             return SaveChanges();
         }
 
-        public bool UpdateUser(int Id, Users newUser)
+        public bool UpdateUser(Users newUser)
         {
             Console.WriteLine($"newUser {newUser.FirstName}");
             _context.Update(newUser);
 
+            return SaveChanges();
+        }
+
+        public bool DeleteUser(int Id)
+        {
+            var deleteUser = GetUser(Id);
+            Console.WriteLine(deleteUser.UserId);
+            _context.Users.Remove(deleteUser);
             return SaveChanges();
         }
     }

@@ -82,29 +82,59 @@ namespace BookBurrowAPI.Controllers
         }
 
         [HttpPut("/updateUser")]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(404)]
         public IActionResult UpdateUser(int currentId, [FromBody] UsersDto newUser)
         {
             if (newUser == null)
             {
-                return BadRequest();
-            }
-
-            if (_userAction.GetUser(currentId).UserId == 0)
-            {
                 return NotFound();
             }
 
-            var mappedUser = _mapper.Map<Users>(newUser);
-            var endResult = _userAction.UpdateUser(currentId, mappedUser);
+            if (currentId != newUser.UserId)
+            {
+                return BadRequest("Does not match userId");
+            }
 
-            if (endResult == false)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var mappedUser = _mapper.Map<Users>(newUser);
+
+            if (!_userAction.UpdateUser(mappedUser))
             {
                 return  StatusCode(StatusCodes.Status500InternalServerError);
             } else
             {
-                return Ok();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
+        }
+
+        [HttpDelete("/deleteUser")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult RemoveUser([FromQuery] int currentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Check your input");
+            }
+
+            if (_userAction.UserExists(currentId))
+            {
+                if (_userAction.DeleteUser(currentId))
+                {
+                    return NoContent();
+                }
+
+                return BadRequest("Something went wrong with our servers");
+            }
+
+            return NotFound();
         }
     }
 }
