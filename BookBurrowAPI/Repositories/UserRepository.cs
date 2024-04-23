@@ -29,7 +29,7 @@ namespace BookBurrowAPI.Repositories
 
         public bool UserExists(int Id)
         {
-            return _context.Users.Any(c => c.UserId == Id) == true ? true : false;
+            return _context.Users.Any(c => c.UserId == Id) == true;
         }
 
         public Users GetUser(int Id)
@@ -99,7 +99,6 @@ namespace BookBurrowAPI.Repositories
 
         public bool UpdateUser(Users newUser)
         {
-            Console.WriteLine($"newUser {newUser.FirstName}");
             _context.Update(newUser);
 
             return SaveChanges();
@@ -108,7 +107,6 @@ namespace BookBurrowAPI.Repositories
         public bool DeleteUser(int Id)
         {
             var deleteUser = GetUser(Id);
-            Console.WriteLine(deleteUser.UserId);
             _context.Users.Remove(deleteUser);
             return SaveChanges();
         }
