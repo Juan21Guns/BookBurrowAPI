@@ -1,4 +1,7 @@
-﻿namespace BookBurrowAPI.Interfaces
+﻿using BookBurrowAPI.MappingDto;
+using BookBurrowAPI.Models;
+
+namespace BookBurrowAPI.Interfaces
 {
     public interface IFriendsListRepository
     {
@@ -6,16 +9,21 @@
         //returns true if saved, false if error
         bool SaveChanges();
 
+        int FriendExists(FriendsList friend);
+
         //use user ints to look up table, if row exists, returns friend status
-        int FriendConnectionExists(int User1, int User2);
-        
+        FriendsList? FriendConnectionExists(int User1, int User2);
+
         //from User1's side. Created row in database with timestamp.
         //Sets friendstatus to 0 for pending.
-/*        int EstablishFriendConnection(int User1, int User2, DateOnly timeCreated);
+        FriendsList? CreateFriend(int User1, int User2, bool block = false);
 
+        //will authenticate with Cognito to use userId for check
         //from User2's side. Updates time and status. Return status (and possible sns). 
-        int UpdateFriendConnection(int User1, int User2, DateOnly timeCreated, int friendStatus);
+        bool UpdateFriend(FriendsList friend);
 
-        bool RemoveFriendConnection(int User1, int User2);*/
+        bool BlockFriend(int User1, int User2);
+
+        bool RemoveFriend(FriendsList friend);
     }
 }

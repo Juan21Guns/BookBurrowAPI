@@ -33,6 +33,22 @@ namespace BookBurrowAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "FriendsList",
+                columns: table => new
+                {
+                    User1 = table.Column<int>(type: "int", nullable: false),
+                    User2 = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    TimeCreated = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    FriendStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendsList", x => new { x.User1, x.User2 });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "PrivateGroups",
                 columns: table => new
                 {
@@ -52,41 +68,12 @@ namespace BookBurrowAPI.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "longtext", nullable: false),
-                    LastName = table.Column<string>(type: "longtext", nullable: false)
+                    FirstName = table.Column<string>(type: "longtext", nullable: true),
+                    LastName = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "FriendsLists",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    User1UserId = table.Column<int>(type: "int", nullable: false),
-                    User2UserId = table.Column<int>(type: "int", nullable: false),
-                    TimeCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FriendStatus = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FriendsLists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FriendsLists_Users_User1UserId",
-                        column: x => x.User1UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FriendsLists_Users_User2UserId",
-                        column: x => x.User2UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -146,16 +133,6 @@ namespace BookBurrowAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FriendsLists_User1UserId",
-                table: "FriendsLists",
-                column: "User1UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FriendsLists_User2UserId",
-                table: "FriendsLists",
-                column: "User2UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Messages_ChatId",
                 table: "Messages",
                 column: "ChatId");
@@ -178,7 +155,7 @@ namespace BookBurrowAPI.Migrations
                 name: "Books");
 
             migrationBuilder.DropTable(
-                name: "FriendsLists");
+                name: "FriendsList");
 
             migrationBuilder.DropTable(
                 name: "Messages");

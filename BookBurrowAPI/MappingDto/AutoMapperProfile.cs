@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookBurrowAPI.MappingDto;
 using BookBurrowAPI.Models;
 
 namespace BookBurrowAPI.Mapping
@@ -9,6 +10,7 @@ namespace BookBurrowAPI.Mapping
         {
             CreateMap<Users, UsersDto>();
             CreateMap<UsersDto, Users>();
+            CreateMap<FriendsListDto, FriendsList>();
         }
     }
 }
