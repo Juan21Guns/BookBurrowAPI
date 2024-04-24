@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240423201000_InitialCreate")]
+    [Migration("20240424200926_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -118,7 +118,7 @@ namespace BookBurrowAPI.Migrations
                     b.ToTable("PGUserNames");
                 });
 
-            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroup", b =>
+            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroups", b =>
                 {
                     b.Property<int>("ChatId")
                         .ValueGeneratedOnAdd()
@@ -126,6 +126,12 @@ namespace BookBurrowAPI.Migrations
 
                     b.Property<int>("BookChapter")
                         .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("ChatId");
 
@@ -151,7 +157,7 @@ namespace BookBurrowAPI.Migrations
 
             modelBuilder.Entity("BookBurrowAPI.Models.Messages", b =>
                 {
-                    b.HasOne("BookBurrowAPI.Models.PrivateGroup", "Chat")
+                    b.HasOne("BookBurrowAPI.Models.PrivateGroups", "Chat")
                         .WithMany("Messages")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -170,7 +176,7 @@ namespace BookBurrowAPI.Migrations
 
             modelBuilder.Entity("BookBurrowAPI.Models.PGUserNames", b =>
                 {
-                    b.HasOne("BookBurrowAPI.Models.PrivateGroup", "Chat")
+                    b.HasOne("BookBurrowAPI.Models.PrivateGroups", "Chat")
                         .WithMany("Chats")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -187,7 +193,7 @@ namespace BookBurrowAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroup", b =>
+            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroups", b =>
                 {
                     b.Navigation("Chats");
 

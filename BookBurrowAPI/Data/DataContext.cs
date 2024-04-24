@@ -14,7 +14,7 @@ namespace BookBurrowAPI.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<FriendsList> FriendsList { get; set; }
         public DbSet<Books> Books { get; set; }
-        public DbSet<PrivateGroup> PrivateGroups { get; set; }
+        public DbSet<PrivateGroups> PrivateGroups { get; set; }
         public DbSet<PGUserNames> PGUserNames { get; set; }
         public DbSet<Messages> Messages { get; set; }
 
