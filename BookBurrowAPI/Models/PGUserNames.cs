@@ -8,6 +8,6 @@ namespace BookBurrowAPI.Models
         public int ChatId { get; set; }
         public string Username { get; set; } = "";
         public Users? User { get; }
-        public PrivateGroup? Chat { get; }
+        public PrivateGroups? Chat { get; }
     }
 }

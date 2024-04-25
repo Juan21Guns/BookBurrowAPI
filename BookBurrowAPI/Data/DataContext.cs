@@ -1,4 +1,5 @@
-﻿using BookBurrowAPI.Models;
+﻿using BookBurrowAPI.MappingDto;
+using BookBurrowAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookBurrowAPI.Data
@@ -13,7 +14,7 @@ namespace BookBurrowAPI.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<FriendsList> FriendsList { get; set; }
         public DbSet<Books> Books { get; set; }
-        public DbSet<PrivateGroup> PrivateGroups { get; set; }
+        public DbSet<PrivateGroups> PrivateGroups { get; set; }
         public DbSet<PGUserNames> PGUserNames { get; set; }
         public DbSet<Messages> Messages { get; set; }
 

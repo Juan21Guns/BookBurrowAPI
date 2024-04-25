@@ -3,12 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookBurrowAPI.Models
 {
-    public class PrivateGroup
+    public class PrivateGroups
     {
         [Key]
         public int ChatId { get; set; }
-        public Books? BookId { get; }
+        public int BookId { get; set; }
         public int BookChapter { get; set; }
+        public bool IsPrivate { get; set; }
+        public required string ChatName { get; set; }
+        public int GroupAdmin { get; set; }
         public ICollection<PGUserNames>? Chats { get; set; }
         public ICollection<Messages>? Messages { get; set; }
     }

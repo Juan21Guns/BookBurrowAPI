@@ -36,7 +36,7 @@ namespace BookBurrowAPI.Controllers
         [HttpGet("/byName")]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUserByName([FromQuery] string firstName, [FromQuery] string lastName)
+        public IActionResult GetUserByName(string? firstName, string? lastName)
         {
             if (firstName == null && lastName == null)
             {

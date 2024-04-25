@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240419194344_Initial-Create")]
+    [Migration("20240425045856_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,29 +51,24 @@ namespace BookBurrowAPI.Migrations
 
             modelBuilder.Entity("BookBurrowAPI.Models.FriendsList", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("User1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User2")
                         .HasColumnType("int");
 
                     b.Property<int>("FriendStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeCreated")
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("TimeCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("User1UserId")
-                        .HasColumnType("int");
+                    b.HasKey("User1", "User2");
 
-                    b.Property<int>("User2UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("User1UserId");
-
-                    b.HasIndex("User2UserId");
-
-                    b.ToTable("FriendsLists");
+                    b.ToTable("FriendsList");
                 });
 
             modelBuilder.Entity("BookBurrowAPI.Models.Messages", b =>
@@ -123,7 +118,7 @@ namespace BookBurrowAPI.Migrations
                     b.ToTable("PGUserNames");
                 });
 
-            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroup", b =>
+            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroups", b =>
                 {
                     b.Property<int>("ChatId")
                         .ValueGeneratedOnAdd()
@@ -131,6 +126,19 @@ namespace BookBurrowAPI.Migrations
 
                     b.Property<int>("BookChapter")
                         .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ChatName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GroupAdmin")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("ChatId");
 
@@ -144,11 +152,9 @@ namespace BookBurrowAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("UserId");
@@ -156,28 +162,9 @@ namespace BookBurrowAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BookBurrowAPI.Models.FriendsList", b =>
-                {
-                    b.HasOne("BookBurrowAPI.Models.Users", "User1")
-                        .WithMany()
-                        .HasForeignKey("User1UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookBurrowAPI.Models.Users", "User2")
-                        .WithMany()
-                        .HasForeignKey("User2UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User1");
-
-                    b.Navigation("User2");
-                });
-
             modelBuilder.Entity("BookBurrowAPI.Models.Messages", b =>
                 {
-                    b.HasOne("BookBurrowAPI.Models.PrivateGroup", "Chat")
+                    b.HasOne("BookBurrowAPI.Models.PrivateGroups", "Chat")
                         .WithMany("Messages")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -196,7 +183,7 @@ namespace BookBurrowAPI.Migrations
 
             modelBuilder.Entity("BookBurrowAPI.Models.PGUserNames", b =>
                 {
-                    b.HasOne("BookBurrowAPI.Models.PrivateGroup", "Chat")
+                    b.HasOne("BookBurrowAPI.Models.PrivateGroups", "Chat")
                         .WithMany("Chats")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -213,7 +200,7 @@ namespace BookBurrowAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroup", b =>
+            modelBuilder.Entity("BookBurrowAPI.Models.PrivateGroups", b =>
                 {
                     b.Navigation("Chats");
 
