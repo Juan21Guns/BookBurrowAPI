@@ -35,9 +35,18 @@ namespace BookBurrowAPI.Repositories
             }
         }
 
+        public bool GroupExist(int id)
+        {
+            if (_context.PrivateGroups.Any(c => c.ChatId == id))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public PrivateGroups? GetGroup(int id)
         {
-            if (!_context.PrivateGroups.Any(c => c.ChatId == id))
+            if (!GroupExist(id))
             {
                 return null;
             }
@@ -69,8 +78,18 @@ namespace BookBurrowAPI.Repositories
             return userNames;
         }
 
-        public bool AddUsers(PGUserNames user)
+        public bool UserExist (PGUserNames user)
         {
+            return _context.PGUserNames.Any(c => c == user);
+        }
+
+        public bool? AddUsers(PGUserNames user)
+        {
+            if (UserExist(user))
+            {
+                throw new Exception("User already exists in chat");
+            }
+
             if (user == null)
             {
                 return false;
@@ -108,10 +127,59 @@ namespace BookBurrowAPI.Repositories
             };
             return names.ChatId;
         }
-        //PrivateGroups UpdateGroup(int bookId, PGUserNames groupUsers);
-        //PrivateGroups DeleteGroup(int bookId);
-        //PGUserNames CreateUserName(string userName);
-        //PGUserNames UpdateUserName(string userName);
-        //PGUserNames DeleteUserName(int bookId);
+        
+        public bool UpdateGroup(PrivateGroups info)
+        {
+            if (info != null && GroupExist(info.ChatId))
+            {
+                _context.PrivateGroups.Update(info);
+                return SaveChanges();
+            }
+
+            return false;
+        }
+
+        public bool UpdateUserName(PGUserNames name)
+        {
+            if (!UserExist(name))
+            {
+                return false;
+            }
+
+            _context.Update(name);
+            return SaveChanges();
+        }
+        
+        public bool DeleteGroup(int chatId)
+        {
+            var getGroup = GetGroup(chatId);
+            if (getGroup != null)
+            {
+                ICollection<PGUserNames> chatUsers = _context.PGUserNames
+                    .Where(c => c.ChatId == chatId).ToList();
+
+                try
+                {
+                    _context.Remove(getGroup);
+                    return SaveChanges();
+                } catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public bool DeleteUserName(PGUserNames user)
+        {
+            if (UserExist(user))
+            {
+                _context.Remove(user);
+                return SaveChanges();
+            }
+
+            return false;
+        }
     }
 }

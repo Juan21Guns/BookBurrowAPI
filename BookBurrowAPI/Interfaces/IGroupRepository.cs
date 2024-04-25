@@ -1,4 +1,5 @@
-﻿using BookBurrowAPI.Models;
+﻿using BookBurrowAPI.MappingDto;
+using BookBurrowAPI.Models;
 
 namespace BookBurrowAPI.Interfaces
 {
@@ -7,13 +8,14 @@ namespace BookBurrowAPI.Interfaces
         bool SaveChanges();
         ICollection<PrivateGroups> FindGroupsByName(string groupName);
         PrivateGroups? GetGroup(int id);
+        bool GroupExist(int id);
+        bool UserExist(PGUserNames user);
         ICollection<UsersPGUserNames>? GetGroupUsers(int id);
-        bool AddUsers(PGUserNames user);
+        bool? AddUsers(PGUserNames user);
         int CreateGroup(PrivateGroups names);
-        //PrivateGroups UpdateGroup(int bookId, PGUserNames groupUsers);
-        //PrivateGroups DeleteGroup(int bookId);
-        //PGUserNames CreateUserName(string userName);
-        //PGUserNames UpdateUserName(string userName);
-        //PGUserNames DeleteUserName(int bookId);
+        bool UpdateGroup(PrivateGroups info);
+        bool UpdateUserName(PGUserNames name);
+        bool DeleteGroup(int chatId);
+        bool DeleteUserName(PGUserNames user);
     }
 }

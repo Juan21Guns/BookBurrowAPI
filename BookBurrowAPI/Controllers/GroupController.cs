@@ -55,7 +55,7 @@ namespace BookBurrowAPI.Controllers
             return NotFound("Something went wrong");
         }
 
-        [HttpPost("/CreateGroup")]
+        [HttpPost("/createGroup")]
         public IActionResult CreateGroup([FromForm] PrivateGroupsDto names)
         {
             var mappedNames = _mapper.Map<PrivateGroups>(names);
@@ -75,19 +75,67 @@ namespace BookBurrowAPI.Controllers
         [HttpPost("/addMembers")]
         public IActionResult AddMembers(ICollection<PGUserNamesDto> userNames)
         {
+            string message = "";
             var mappedUsers = _mapper.Map<ICollection<PGUserNames>>(userNames);
             foreach (var pgu in mappedUsers)
             {
-                Console.WriteLine("this is working");
                 try
                 {
+                    pgu.Username = "";
                     _groupAction.AddUsers(pgu);
                 } catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    message += ex;
                 }
             }
-            return Ok();
+            return Ok(message);
+        }
+
+        [HttpPut("/updateGroup")]
+        public IActionResult UpdateGroup(PrivateGroupsDto info)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Make sure your input is valid");
+            }
+
+            var mappedInfo = _mapper.Map<PrivateGroups>(info);
+            return _groupAction.UpdateGroup(mappedInfo) == true ? Ok() : BadRequest(); 
+        }
+
+        [HttpPut("/updateUserName")]
+        public IActionResult UpdateUserName(PGUserNamesDto name)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Make sure your input is valid");
+            }
+
+            var mappedInfo = _mapper.Map<PGUserNames>(name);
+            return _groupAction.UpdateUserName(mappedInfo) == true ? Ok() : BadRequest();
+        }
+
+        [HttpDelete("/deleteGroupChat")]
+        public IActionResult DeleteGroup(int id)
+        {
+            if (id != 0)
+            {
+                return _groupAction.DeleteGroup(id) == true ? Ok() : BadRequest();
+            }
+
+            return NotFound("Group not found");
+        }
+
+        [HttpDelete("/deleteUserFromGroup")]
+        public IActionResult DeleteUser(PGUserNamesDto user)
+        {
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var mappedUser = _mapper.Map<PGUserNames>(user);
+            return _groupAction.DeleteUserName(mappedUser) == true ? Ok() : BadRequest();
         }
     }
 }
