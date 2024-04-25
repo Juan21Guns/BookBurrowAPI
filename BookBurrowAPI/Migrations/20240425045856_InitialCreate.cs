@@ -56,7 +56,9 @@ namespace BookBurrowAPI.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     BookId = table.Column<int>(type: "int", nullable: false),
                     BookChapter = table.Column<int>(type: "int", nullable: false),
-                    IsPrivate = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsPrivate = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ChatName = table.Column<string>(type: "longtext", nullable: false),
+                    GroupAdmin = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

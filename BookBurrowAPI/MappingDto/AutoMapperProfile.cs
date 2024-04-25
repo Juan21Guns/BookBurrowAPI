@@ -13,6 +13,9 @@ namespace BookBurrowAPI.Mapping
             CreateMap<FriendsListDto, FriendsList>();
             CreateMap<PrivateGroups, PrivateGroupsDto>();
             CreateMap<PGUserNames, PGUserNamesDto>();
+            CreateMap<PrivateGroupsDto, PrivateGroups>();
+            CreateMap<PGUserNamesDto, PGUserNames>();
+            CreateMap<UsersPGUserNames, PGUserNames>();
         }
     }
 }

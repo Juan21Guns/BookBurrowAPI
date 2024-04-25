@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240424200926_InitialCreate")]
+    [Migration("20240425045856_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -128,6 +128,13 @@ namespace BookBurrowAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ChatName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GroupAdmin")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsPrivate")

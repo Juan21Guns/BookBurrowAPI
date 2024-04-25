@@ -127,6 +127,13 @@ namespace BookBurrowAPI.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ChatName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GroupAdmin")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("tinyint(1)");
 
