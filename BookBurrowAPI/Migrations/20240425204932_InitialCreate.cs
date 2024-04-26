@@ -24,6 +24,7 @@ namespace BookBurrowAPI.Migrations
                     BookTitle = table.Column<string>(type: "longtext", nullable: false),
                     BookDescription = table.Column<string>(type: "longtext", nullable: false),
                     BookImage = table.Column<string>(type: "longtext", nullable: false),
+                    BookSmallImage = table.Column<string>(type: "longtext", nullable: false),
                     BookISBN = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>

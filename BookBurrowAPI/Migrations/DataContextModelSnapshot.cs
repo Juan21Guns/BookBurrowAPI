@@ -37,6 +37,10 @@ namespace BookBurrowAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("BookSmallImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("BookTitle")
                         .IsRequired()
                         .HasColumnType("longtext");

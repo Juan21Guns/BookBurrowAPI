@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240425045856_InitialCreate")]
+    [Migration("20240425204932_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -37,6 +37,10 @@ namespace BookBurrowAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BookSmallImage")
                         .IsRequired()
                         .HasColumnType("longtext");
 
