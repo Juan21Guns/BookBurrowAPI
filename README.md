@@ -5,6 +5,7 @@ This 3-tier site is designed to mimic different social media sites, primarily Fa
 
 This project is in tandem with *BookBurrowFE*, the React/TS-based single page application, as well as AWS services for hosting in the cloud. 
 
+As of now, this project is only local. It will be deployed May 11th, 2024.
 ### Tech Stack (marked for completed):
 1. [X] .NET / C#
    - [X] MVC Framework
