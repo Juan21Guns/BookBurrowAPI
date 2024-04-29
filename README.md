@@ -1,7 +1,7 @@
 # BookBurrowAPI
 ### Welcome to the backend of *BookBurrow*, an online book club with group messaging. 📖
 
-This site is designed to mimic different social media sites, primarily Facebook and Discord. There are over **29 API calls** split between users, messages, friends lists, message groups, and accessing books through Google Books API. 
+This 3-tier site is designed to mimic different social media sites, primarily Facebook and Discord. There are over **29 API calls** split between users, messages, friends lists, message groups, and accessing books through Google Books API. 
 
 This project is in tandem with *BookBurrowFE*, the React/TS-based single page application, as well as AWS services for hosting in the cloud. 
 
