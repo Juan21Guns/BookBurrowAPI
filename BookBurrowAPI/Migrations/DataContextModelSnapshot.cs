@@ -25,20 +25,31 @@ namespace BookBurrowAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("BookAuthor")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("BookDescription")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookISBN")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookImage")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BookSmallImage")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BookSubtitle")
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookTitle")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("PageCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PreviewLink")
                         .HasColumnType("longtext");
 
                     b.HasKey("BookId");
@@ -76,6 +87,9 @@ namespace BookBurrowAPI.Migrations
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Edited")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("MessageContent")
                         .IsRequired()

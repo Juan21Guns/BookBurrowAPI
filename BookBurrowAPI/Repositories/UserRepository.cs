@@ -34,11 +34,10 @@ namespace BookBurrowAPI.Repositories
 
         public Users GetUser(int Id)
         {
-            return _context.Users.Where(r => Id == r.UserId)
-                .FirstOrDefault();
+            return _context.Users.Where(r => Id == r.UserId).FirstOrDefault();
         }
 
-        public ICollection<Users> GetUserByName(string? firstName, string? lastName)
+        public ICollection<Users>? GetUserByName(string? firstName, string? lastName)
         {
             if (firstName == null)
             {
@@ -53,12 +52,17 @@ namespace BookBurrowAPI.Repositories
                 return _context.Users.Where(r => firstName == r.FirstName).ToList();
             }
 
-            return _context.Users.Where(r => (lastName == r.LastName) || (firstName == r.FirstName)).ToList();
+            return _context.Users
+                .Where(r => (lastName == r.LastName) || (firstName == r.FirstName))
+                .ToList();
         }
 
         public ICollection<Users> GetAllUsers(int startN, int endN, int friendId, int friendStatus)
         {
-            var friendsList = _context.FriendsList.Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus).ToList();
+            var friendsList = _context.FriendsList
+                .Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus)
+                .ToList();
+
             ICollection<Users> friendUsers = [];
 
             foreach (FriendsList i in friendsList)

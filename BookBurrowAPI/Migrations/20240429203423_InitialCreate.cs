@@ -21,10 +21,15 @@ namespace BookBurrowAPI.Migrations
                 {
                     BookId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    BookTitle = table.Column<string>(type: "longtext", nullable: false),
-                    BookDescription = table.Column<string>(type: "longtext", nullable: false),
-                    BookImage = table.Column<string>(type: "longtext", nullable: false),
-                    BookISBN = table.Column<string>(type: "longtext", nullable: false)
+                    BookTitle = table.Column<string>(type: "longtext", nullable: true),
+                    BookSubtitle = table.Column<string>(type: "longtext", nullable: true),
+                    BookAuthor = table.Column<string>(type: "longtext", nullable: true),
+                    BookDescription = table.Column<string>(type: "longtext", nullable: true),
+                    PageCount = table.Column<int>(type: "int", nullable: true),
+                    PreviewLink = table.Column<string>(type: "longtext", nullable: true),
+                    BookImage = table.Column<string>(type: "longtext", nullable: true),
+                    BookSmallImage = table.Column<string>(type: "longtext", nullable: true),
+                    BookISBN = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +95,8 @@ namespace BookBurrowAPI.Migrations
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     MessageContent = table.Column<string>(type: "longtext", nullable: false),
-                    TimeCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    TimeCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Edited = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

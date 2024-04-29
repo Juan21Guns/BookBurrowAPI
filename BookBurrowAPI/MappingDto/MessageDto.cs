@@ -1,17 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BookBurrowAPI.Models;
 
-namespace BookBurrowAPI.Models
+namespace BookBurrowAPI.MappingDto
 {
-    public class Messages
+    public class MessageDto
     {
-        [Key]
         public int Id { get; set; }
         public int ChatId { get; set; }
         public int UserId { get; set; }
         public string MessageContent { get; set; } = "";
         public DateTime TimeCreated { get; set; }
         public bool Edited { get; set; } = false;
-        public PrivateGroups? Chat { get; }
-        public Users? UserSent { get; }
     }
 }
