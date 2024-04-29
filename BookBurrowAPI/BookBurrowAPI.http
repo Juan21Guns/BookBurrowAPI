@@ -1,6 +1,0 @@
-@BookBurrowAPI_HostAddress = http://localhost:5098
-
-GET {{BookBurrowAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
