@@ -19,4 +19,4 @@ This project is in tandem with *BookBurrowFE*, the React/TS-based single page ap
    - VPC
    - WAF
 
-### As of now, this project is only local. It will be deployed May 11th, 2024.
+### Point of launch date: May 11th, 2024.
