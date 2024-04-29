@@ -45,6 +45,7 @@ namespace BookBurrowAPI.Controllers
                 return BadRequest("please send a valid message");
             }
 
+            message.Edited = false;
             var mapped = _mapper.Map<Messages>(message);
             int ? sent = _messagesAction.SendMessage(mapped);
 
