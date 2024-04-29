@@ -4,6 +4,7 @@ using BookBurrowAPI.Models;
 using BookBurrowAPI.Models.GoogleBooksApi;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 
 namespace BookBurrowAPI.Repositories
@@ -90,19 +91,48 @@ namespace BookBurrowAPI.Repositories
             }
         }
 
-        public bool BookExist(Books book)
+        public Books? GetBookFromDb(int id)
         {
-            return _context.Books.Any(c => (c.BookTitle == book.BookTitle) && (c.BookAuthor == book.BookAuthor) && (c.PageCount == book.PageCount));
+            try
+            {
+                return _context.Books.Where(c => c.BookId == id).First();
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
         }
 
-        public bool CreateBook(Books book)
+        public bool BookExist(Books book)
+        {
+            return _context.Books.Where(c => (c.BookTitle == book.BookTitle) && (c.BookAuthor == book.BookAuthor) && (c.PageCount == book.PageCount)).Any();
+        }
+
+        public int CreateBook(Books book)
         {
             if (book != null && !BookExist(book))
             {
                 _context.Add(book);
-                return SaveChanges();
+                return SaveChanges() == true ? book.BookId : -1;
             }
-            return false;
+            return 0;
+        }
+
+        public ICollection<Books>? GetBooks(int start, int end)
+        {
+            try
+            {
+                var collection = _context.Books
+                .OrderByDescending(c => c.BookId)
+                .Skip(start)
+                .Take(end - start)
+                .ToList();
+                return collection;
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
         }
     }
 }

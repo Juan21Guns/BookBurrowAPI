@@ -164,6 +164,7 @@ namespace BookBurrowAPI.Repositories
                     return SaveChanges();
                 } catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     return false;
                 }
             }

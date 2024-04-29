@@ -42,6 +42,25 @@ namespace BookBurrowAPI.Controllers
             return Ok(something);
         }
 
+        [HttpGet("/getBookFromDb")]
+        public IActionResult GetBookFromDb(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("must be a valid id");
+            }
+
+            var book = _bookAction.GetBookFromDb(id);
+            return book == null ? NotFound() : Ok(book);
+        }
+
+        [HttpGet("/getOtherBooks")]
+        public IActionResult GetOtherBooks(int start, int end)
+        {
+            var books = _bookAction.GetBooks(start, end);
+            return books == null ? BadRequest("something went wrong with our servers") : Ok(books);
+        }
+
         [HttpPost("/createBook")]
         public async Task<IActionResult> CreateBook(string url)
         {
@@ -67,8 +86,17 @@ namespace BookBurrowAPI.Controllers
                     BookISBN = b.volumeInfo.industryIdentifiers[0].identifier
                 };
 
-                bool created = _bookAction.CreateBook(book);
-                return created ? Ok(book) : BadRequest("something went wrong");
+                int created = _bookAction.CreateBook(book);
+
+                if (created > 0)
+                {
+                    return Ok(created);
+                } else if (created == 0)
+                {
+                    return BadRequest("book already exists");
+                }
+
+                return BadRequest("error creating book");
             }
 
             return BadRequest("seomthing went wrong");

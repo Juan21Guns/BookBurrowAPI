@@ -10,6 +10,7 @@ namespace BookBurrowAPI.Models
         public int UserId { get; set; }
         public string MessageContent { get; set; } = "";
         public DateTime TimeCreated { get; set; }
+        public bool Edited { get; set; }
         public PrivateGroups? Chat { get; }
         public Users? UserSent { get; }
     }

@@ -11,33 +11,9 @@ namespace BookBurrowAPI.Interfaces
         bool SaveChanges();
         Task<GBAModels> GetBooksFromApi(string? title, string? isbn, string? author);
         Task<GBAModel2> GetBooksFromUrl(string url);
+        Books? GetBookFromDb(int id);
         bool BookExist(Books book);
-        bool CreateBook(Books book);
-
-        //Get book by (title, isbn) q=name+separated+by+commas+isbn="string"+inauthor="author"
-        //%20 is whitespace
-        //auto mapper to filter results
-        //https://www.googleapis.com/books/v1/volumes? 
-
-        //Get specific book (items.selfLink)
-        //used to get image urls and after clicking on search thumbnail
-
-        //Add book to group (add to db)
-        //Update private group with book
-        //Check db if it is already added
-
-        //Get book by Id (int id)
-        //for groups 
-
-        //Get books from db 
-        //what others are reading
-
-        //Create book from scratch
-        //can't find it from GoogleBooks
-
-        //delete book 
-        //only if error 
-        //Update books in db
-        //only if there is an error 
+        int CreateBook(Books book);
+        ICollection<Books>? GetBooks(int start, int end = 10);
     }
 }
