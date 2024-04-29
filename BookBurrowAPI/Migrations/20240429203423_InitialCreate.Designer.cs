@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBurrowAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240425204932_InitialCreate")]
+    [Migration("20240429203423_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,24 +28,31 @@ namespace BookBurrowAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("BookAuthor")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("BookDescription")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookISBN")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookImage")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookSmallImage")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BookSubtitle")
                         .HasColumnType("longtext");
 
                     b.Property<string>("BookTitle")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("PageCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PreviewLink")
                         .HasColumnType("longtext");
 
                     b.HasKey("BookId");
@@ -83,6 +90,9 @@ namespace BookBurrowAPI.Migrations
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Edited")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("MessageContent")
                         .IsRequired()

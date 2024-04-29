@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using BookBurrowAPI.Interfaces;
 using BookBurrowAPI.MappingDto;
 using BookBurrowAPI.Models;
+using BookBurrowAPI.Repositories;
 
 namespace BookBurrowAPI.Mapping
 {
@@ -16,6 +18,8 @@ namespace BookBurrowAPI.Mapping
             CreateMap<PrivateGroupsDto, PrivateGroups>();
             CreateMap<PGUserNamesDto, PGUserNames>();
             CreateMap<UsersPGUserNames, PGUserNames>();
+            CreateMap<Messages, MessageDto>();
+            CreateMap<MessageDto, Messages>();
         }
     }
 }
