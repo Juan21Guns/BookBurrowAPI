@@ -10,7 +10,7 @@ namespace BookBurrowAPI.Interfaces
         bool UserExists(string sub);
         Users GetUser(string sub);
         ICollection<Users>? GetUserByName(string? firstName = null, string? lastName = null);
-        ICollection<Users> GetAllUsers( int endN, int friendId, int startN = 0, int friendStatus = 1);
+        ICollection<Users> GetAllUsers( int endN, string sub, int startN = 0, int friendStatus = 1);
         bool CreateUser( string FirstName, string LastName, string sub);
 
         bool UpdateUser(Users newUser);

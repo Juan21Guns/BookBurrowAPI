@@ -55,13 +55,13 @@ namespace BookBurrowAPI.Controllers
         [HttpGet("/all")]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetAllUsers(int startN, int endN, int friendId, int friendStatus)
+        public IActionResult GetAllUsers(int startN, int endN, int friendStatus, string sub)
         {
-            if ( endN == 0 || friendId == 0 )
+            if ( endN == 0 || sub == "" )
             {
                 return BadRequest();
             }
-            var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(startN, endN, friendId, friendStatus));
+            var user = _mapper.Map<IList<UsersDto>>(_userAction.GetAllUsers(startN, sub, endN, friendStatus));
             return user == null ? NotFound() : Ok(user);
         }
 
@@ -85,17 +85,17 @@ namespace BookBurrowAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(500)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateUser(int currentId, [FromBody] UsersDto newUser)
+        public IActionResult UpdateUser([FromHeader] string sub, [FromBody] UsersDto newUser)
         {
             if (newUser == null)
             {
                 return NotFound();
             }
 
-            if (currentId != newUser.UserId)
+/*            if (currentId != newUser.UserId)
             {
                 return BadRequest("Does not match userId");
-            }
+            }*/
 
             if (!ModelState.IsValid)
             {
@@ -103,6 +103,7 @@ namespace BookBurrowAPI.Controllers
             }
 
             var mappedUser = _mapper.Map<Users>(newUser);
+            mappedUser.Sub = sub;
 
             if (!_userAction.UpdateUser(mappedUser))
             {

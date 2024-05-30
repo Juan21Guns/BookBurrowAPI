@@ -57,10 +57,12 @@ namespace BookBurrowAPI.Repositories
                 .ToList();
         }
 
-        public ICollection<Users> GetAllUsers(int startN, int endN, int friendId, int friendStatus)
+        public ICollection<Users> GetAllUsers(int startN, string sub, int endN, int friendStatus)
         {
+            int id = GetUser(sub).UserId;
+
             var friendsList = _context.FriendsList
-                .Where(c => ( (c.User1 == friendId) || (c.User2 == friendId) ) && c.FriendStatus == friendStatus)
+                .Where(c => ( (c.User1 == id) || (c.User2 == id) ) && c.FriendStatus == friendStatus)
                 .ToList();
 
             ICollection<Users> friendUsers = [];
@@ -70,7 +72,7 @@ namespace BookBurrowAPI.Repositories
                 int friend;
                 Users currentFriend;
 
-                if (i.User1 == friendId)
+                if (i.User1 == id)
                 {
                     friend = i.User2;
                 } else
