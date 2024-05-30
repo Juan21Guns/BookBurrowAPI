@@ -4,6 +4,7 @@ using BookBurrowAPI.Models;
 using BookBurrowAPI.Models.GoogleBooksApi;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using static Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerOpenJsonExpression;
 
 namespace BookBurrowAPI.Controllers
 {
@@ -74,7 +75,17 @@ namespace BookBurrowAPI.Controllers
             }
 
             var b = await _bookAction.GetBooksFromUrl(url);
-            
+
+            if (b.volumeInfo?.description?.Length > 3000)
+            {
+                b.volumeInfo.description = b.volumeInfo.description.Substring(0, 2999);
+            }
+
+            if (b.volumeInfo?.industryIdentifiers[0].identifier.Length > 13)
+            {
+                b.volumeInfo.industryIdentifiers[0].identifier = b.volumeInfo?.industryIdentifiers[0].identifier.Substring(0, 12);
+            }
+
             if (b != null)
             {
                 Books book = new Books()
