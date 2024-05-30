@@ -27,6 +27,10 @@ namespace BookBurrowAPI.Controllers
             }
 
             var something = await _bookAction.GetBooksFromApi(title, isbn, author);
+            if (something.totalItems == 0)
+            {
+                return Ok("null");
+            }
             return Ok(something);
         }
 

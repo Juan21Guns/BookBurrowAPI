@@ -39,22 +39,35 @@ namespace BookBurrowAPI.Repositories
             string qIsbn = "";
             string qAuthor = "";
 
+            string[] combine = Array.Empty<string>();
+
             if (!title.IsNullOrEmpty())
             {
-                qTitle = title;
+                /*                string[] splitTitle = title.Split(" ");
+                                string finalTitle = string.Join("+intitle:", splitTitle);
+                                ;*/
+
+                qTitle = $"intitle:{title}";
+                combine = combine.Append(qTitle).ToArray();
             }
 
             if (!isbn.IsNullOrEmpty())
             {
-                qIsbn = $"+isbn={isbn}";
+                qIsbn = $"isbn:{isbn}";
+                combine = combine.Append(qIsbn).ToArray();
             }
 
             if (!author.IsNullOrEmpty())
             {
-                qAuthor = $"+inauthor={author}";
+                string[] splitAuthor = author.Split(" ");
+                string finalAuthor = string.Join("+inauthor:", splitAuthor);
+                qAuthor = $"inauthor:{finalAuthor}";
+                combine = combine.Append(qAuthor).ToArray();
             }
 
-            string testUrl = $"https://www.googleapis.com/books/v1/volumes?q={qTitle}{qIsbn}{qAuthor}";
+            string combined = string.Join("+", combine);
+
+            string testUrl = $"https://www.googleapis.com/books/v1/volumes?q={combined}";
             using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(testUrl))
             {
                 if (response.IsSuccessStatusCode)

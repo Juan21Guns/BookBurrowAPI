@@ -11,6 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ApiHelper.InitializeClient();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+/*        policy.WithOrigins("http://localhost:5173/")
+            .AllowAnyMethod()
+            .AllowAnyHeader();*/
+    });
+});
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFriendsListRepository, FriendsListRepository>();
@@ -36,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

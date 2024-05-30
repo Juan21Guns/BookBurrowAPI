@@ -22,9 +22,9 @@ namespace BookBurrowAPI.Controllers
         [HttpGet("/one")]
         [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUser([FromQuery] int Id)
+        public IActionResult GetUser([FromHeader] string sub)
         {
-            var user = _mapper.Map<UsersDto>(_userAction.GetUser(Id));
+            var user = _mapper.Map<UsersDto>(_userAction.GetUser(sub));
             if (user == null)
             {
                 return NotFound();
@@ -68,11 +68,11 @@ namespace BookBurrowAPI.Controllers
         [HttpPost("/createNewAccount")]
         [ProducesResponseType(204)]
         [ProducesResponseType(500)]
-        public IActionResult CreateNewUser([FromForm] string firstName, [FromForm] string lastName)
+        public IActionResult CreateNewUser([FromForm] string firstName, [FromForm] string lastName, [FromHeader] string sub)
         {
             //checks for if user exists will be done with Cognito at a later time
 
-            bool didSave = _userAction.CreateUser(firstName, lastName);
+            bool didSave = _userAction.CreateUser(firstName, lastName, sub);
 
             if (!didSave)
             {
@@ -117,16 +117,16 @@ namespace BookBurrowAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult RemoveUser([FromQuery] int currentId)
+        public IActionResult RemoveUser([FromHeader] string sub)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Check your input");
             }
 
-            if (_userAction.UserExists(currentId))
+            if (_userAction.UserExists(sub))
             {
-                if (_userAction.DeleteUser(currentId))
+                if (_userAction.DeleteUser(sub))
                 {
                     return NoContent();
                 }

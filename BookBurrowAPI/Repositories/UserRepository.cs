@@ -27,14 +27,14 @@ namespace BookBurrowAPI.Repositories
             }
         }
 
-        public bool UserExists(int Id)
+        public bool UserExists(string sub)
         {
-            return _context.Users.Any(c => c.UserId == Id) == true;
+            return _context.Users.Any(c => c.Sub == sub) == true;
         }
 
-        public Users GetUser(int Id)
+        public Users GetUser(string sub)
         {
-            return _context.Users.Where(r => Id == r.UserId).FirstOrDefault();
+            return _context.Users.Where(r => sub == r.Sub).FirstOrDefault();
         }
 
         public ICollection<Users>? GetUserByName(string? firstName, string? lastName)
@@ -86,14 +86,15 @@ namespace BookBurrowAPI.Repositories
             return friendUsers.OrderBy(c => c.FirstName).Skip(startN).Take((endN - startN)).ToList();
         }
 
-        public bool CreateUser(string FirstName, string LastName)
+        public bool CreateUser(string FirstName, string LastName, string sub)
         {
             //Checking for existing user will be done with AWS Cognito
             //Assuming account was created:
             Users newProfile = new Users()
             {
                 FirstName = FirstName,
-                LastName = LastName
+                LastName = LastName,
+                Sub = sub,
             };
 
             _context.Users.Add(newProfile);
@@ -108,9 +109,9 @@ namespace BookBurrowAPI.Repositories
             return SaveChanges();
         }
 
-        public bool DeleteUser(int Id)
+        public bool DeleteUser(string sub)
         {
-            var deleteUser = GetUser(Id);
+            var deleteUser = GetUser(sub);
             _context.Users.Remove(deleteUser);
             return SaveChanges();
         }
