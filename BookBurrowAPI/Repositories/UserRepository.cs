@@ -49,7 +49,16 @@ namespace BookBurrowAPI.Repositories
                 return null;
             } else if (lastName == null)
             {
-                return _context.Users.Where(r => firstName == r.FirstName).ToList();
+                List<Users> first = _context.Users.Where(r => firstName == r.FirstName).ToList();
+                List<Users> last = _context.Users.Where(r => firstName == r.LastName).ToList();
+                
+                first.AddRange(last);
+
+                List<Users> uniqueList = first
+                    .Distinct()
+                    .ToList();
+
+                return uniqueList;
             }
 
             return _context.Users
