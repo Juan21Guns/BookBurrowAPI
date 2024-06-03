@@ -3,6 +3,7 @@ using BookBurrowAPI.Interfaces;
 using BookBurrowAPI.MappingDto;
 using BookBurrowAPI.Models;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Runtime.Intrinsics.X86;
 
@@ -46,7 +47,20 @@ namespace BookBurrowAPI.Repositories
         {
             try
             {
-                var row = _context.FriendsList.Where(c => ((c.User1 == User1) && (c.User2 == User2)) || ((c.User2 == User1) && (c.User1 == User2))).First();
+                var row = _context.FriendsList.Where(c => ((c.User1 == User1) && (c.User2 == User2)) || ((c.User2 == User1) && (c.User1 == User2))).FirstOrDefault();
+
+                if (row == null)
+                {
+                    FriendsList newFriend = new FriendsList()
+                    {
+                        User1 = User1,
+                        User2 = User2,
+                        TimeCreated = null,
+                        FriendStatus = -1
+                    };
+
+                    return newFriend;
+                }
                 return row;
             } catch (Exception ex)
             {
@@ -60,7 +74,10 @@ namespace BookBurrowAPI.Repositories
             var result = FriendConnectionExists(User1, User2);
             if (result != null)
             {
-                return result;
+                if (result.FriendStatus != -1)
+                {
+                    return result;
+                }
             }
 
             try

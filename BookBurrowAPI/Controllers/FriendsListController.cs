@@ -24,7 +24,7 @@ namespace BookBurrowAPI.Controllers
         public IActionResult CheckFriendExists([FromQuery] int User1, [FromQuery] int User2)
         {
             var result = _friendAction.FriendConnectionExists(User1, User2);
-            return result == null ? BadRequest("No friendship found </3") : Ok(result);
+            return result == null ? BadRequest("something went wrong") : Ok(result);
 
 
         }
